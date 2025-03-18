@@ -3,21 +3,25 @@
   "name": "Anonymous YouTube Chat",
   "version": "1.0",
   "description": "Chat anonymously with others watching the same YouTube video",
-  "permissions": ["storage"],
-  "host_permissions": ["https://*.youtube.com/*"],
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["https://*.youtube.com/*", "wss://*.glitch.me/*"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "YouTube Anonymous Chat"
   },
   "content_scripts": [
     {
       "matches": ["https://*.youtube.com/watch*"],
-      "js": ["content.js", "socket.io.min.js"],
+      "js": ["content.js"],
       "css": ["styles.css"]
     }
   ],
-  "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  }
+  "content_security_policy": {
+    "extension_pages": "connect-src 'self' wss://glitch.me;"
+  },
+  "icons": {}
 }
